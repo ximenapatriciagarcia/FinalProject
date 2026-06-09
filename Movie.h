@@ -1,4 +1,8 @@
+#ifndef MOVIE_H
+#define MOVIE_H
+
 class Movie {
 protected:
-private:
-}
+public:
+};
+#endif // MOVIE_H
