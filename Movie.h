@@ -1,0 +1,4 @@
+class Movie {
+protected:
+private:
+}
