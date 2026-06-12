@@ -1,9 +1,8 @@
 #ifndef VIDEO_H
 #define VIDEO_H
 #include "../Time/Time.h"
-#include "../rating/rating.h"
+#include "../Rating/rating.h"
 
-#include <string>
 class Video {
 
     public:
