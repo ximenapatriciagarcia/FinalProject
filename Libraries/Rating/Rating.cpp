@@ -1,30 +1,26 @@
-#include "rating.hpp"
-#include <iostream>
-using namespace std;
+#include "Rating.hpp"
 
-Rating::Rating(){
-    rates = {};
-    rating = 0;
-}
+Rating::Rating() {}
 
-void Rating::CalculateAverageRating(int r){
-    float sum_rates = 0;
-    rates.push_back(r);
-    for (int i = 0; i < rates.size(); i++){
-        sum_rates += rates[i];
+Rating& Rating::operator+=(float r) {
+    if (r < 1.0f || r > 5.0f) {
+        throw InvalidRatingException(r);
     }
-    rating = (sum_rates/rates.size());
+    rates.push_back(r);
+    return *this;
 }
 
-float Rating::Rate(int r){
-    CalculateAverageRating(r);
-    return rating;
+float Rating::getAverage() const {
+    if (rates.empty()) {
+        throw DivideByZeroException();
+    }
+    float sum = 0.0f;
+    for (float r : rates) {
+        sum += r;
+    }
+    return sum / rates.size();
 }
 
-float Rating::GetRating(){
-    return rating;
-}
-
-void Rating::SetRate(float r){
-    rating = r;
+bool Rating::isEmpty() const {
+    return rates.empty();
 }

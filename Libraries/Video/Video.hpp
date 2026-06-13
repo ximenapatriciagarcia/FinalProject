@@ -1,9 +1,8 @@
 #ifndef SITUATEDPROBLEM_VIDEO_HPP
 #define SITUATEDPROBLEM_VIDEO_HPP
 
-#include <vector>
 #include <string>
-#include "../../Exception/InvalidRatingException/InvalidRatingException.hpp"
+#include "../Rating/Rating.hpp"
 
 using namespace std;
 
@@ -13,7 +12,7 @@ protected:
     string name;
     int length;
     string genre;
-    vector<float> ratings;
+    Rating rating;
 public:
     Video(const string& id, const string& name, int length, const string& genre);
     virtual ~Video();
@@ -23,7 +22,7 @@ public:
     int getLength() const;
     string getGenre() const;
     virtual float getAverageRating() const;
-    Video& operator+=(float rating);
+    Video& operator+=(float r);
     virtual void validate() const;
 };
 

@@ -1,19 +1,18 @@
 #ifndef RATING_H
 #define RATING_H
+
 #include <vector>
-
-
+#include "../../Exception/InvalidRatingException/InvalidRatingException.hpp"
+#include "../../Exception/DivideByZeroException/DivideByZeroException.hpp"
 
 class Rating {
-    private:
-    std::vector<int> rates;
-    float rating;
-    void CalculateAverageRating(int r);
-    public:
+private:
+    std::vector<float> rates;
+public:
     Rating();
-    float GetRating();
-    float Rate(int r);
-    void SetRate(float r);
-
+    Rating& operator+=(float r);
+    float getAverage() const;
+    bool isEmpty() const;
 };
+
 #endif
