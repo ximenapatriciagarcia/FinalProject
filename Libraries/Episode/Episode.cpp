@@ -1,5 +1,4 @@
 #include "Episode.hpp"
-#include "InvalidRatingException.hpp"
 #include <iostream>
 
 using namespace std;

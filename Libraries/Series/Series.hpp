@@ -1,8 +1,8 @@
 #ifndef SITUATEDPROBLEM_SERIES_HPP
 #define SITUATEDPROBLEM_SERIES_HPP
 
-#include "Video.hpp"
-#include "Episode.hpp"
+#include "Libraries/Video/Video.hpp"
+#include "Libraries/Episode/Episode.hpp"
 
 class Series : public Video {
 private:

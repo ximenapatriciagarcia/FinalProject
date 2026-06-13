@@ -1,7 +1,10 @@
 #ifndef SITUATEDPROBLEM_MOVIE_HPP
 #define SITUATEDPROBLEM_MOVIE_HPP
 
-#include "Video.hpp"
+#include "Libraries/Video/Video.hpp"
+#include "Movie.hpp"
+
+using namespace std;
 
 class Movie : public Video {
 public:

@@ -1,5 +1,5 @@
 #include "Video.hpp"
-#include "InvalidRatingException.hpp"
+#include "InvalidRatingException/InvalidRatingException.hpp"
 #include <iostream>
 
 using namespace std;
