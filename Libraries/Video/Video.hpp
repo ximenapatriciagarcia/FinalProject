@@ -22,7 +22,7 @@ public:
     string getName() const;
     int getLength() const;
     string getGenre() const;
-    float getAverageRating() const;
+    virtual float getAverageRating() const;
     Video& operator+=(float rating);
 };
 

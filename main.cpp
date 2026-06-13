@@ -8,7 +8,6 @@
 
 using namespace std;
 
-// Reads the data from file
 void loadFromFile(vector<Video*>& catalog, const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
@@ -22,43 +21,46 @@ void loadFromFile(vector<Video*>& catalog, const string& filename) {
         getline(ss, type, ',');
 
         if (type == "MOVIE") {
-            string id, name, genre;
-            int length;
-            string lengthStr;
-
-            getline(ss,id, ',');
-            getline(ss,name, ',');
-            getline(ss,lengthStr, ',');
-            getline(ss,genre, ',');
-
-            length = stoi(lengthStr);
-
-            catalog.push_back(new Movie(id, name, length, genre));
-            currentSeries = nullptr;
-        } else if (type == "SERIES") {
             string id, name, genre, lengthStr;
             int length;
-
             getline(ss, id, ',');
             getline(ss, name, ',');
             getline(ss, lengthStr, ',');
             getline(ss, genre, ',');
-
             length = stoi(lengthStr);
+            catalog.push_back(new Movie(id, name, length, genre));
+            currentSeries = nullptr;
 
+        } else if (type == "SERIES") {
+            string id, name, genre, lengthStr;
+            int length;
+            getline(ss, id, ',');
+            getline(ss, name, ',');
+            getline(ss, lengthStr, ',');
+            getline(ss, genre, ',');
+            length = stoi(lengthStr);
             Series* s = new Series(id, name, length, genre);
             catalog.push_back(s);
             currentSeries = s;
-        } else if (type == "EPISODE") {
-            string title, seasonStr;
-            int season;
 
-            getline(ss, title, ',');
+        } else if (type == "SEASON") {
+            string seasonStr;
             getline(ss, seasonStr, ',');
-            season = stoi(seasonStr);
-
+            int seasonNum = stoi(seasonStr);
             if (currentSeries != nullptr) {
-                currentSeries->addEpisode(Episode(title, season));
+                currentSeries->addSeason(Season(seasonNum));
+            }
+
+        } else if (type == "EPISODE") {
+            string id, title, lengthStr, genre;
+            int length;
+            getline(ss, id, ',');
+            getline(ss, title, ',');
+            getline(ss, lengthStr, ',');
+            getline(ss, genre, ',');
+            length = stoi(lengthStr);
+            if (currentSeries != nullptr) {
+                currentSeries->addEpisodeToLastSeason(Episode(id, title, length, genre));
             }
         }
     }
@@ -90,13 +92,14 @@ int main() {
                 } catch (runtime_error& e) {
                     cout << e.what() << endl;
                 }
-                break;}
-            case 2: {cout << "1. Filter by genre" << endl;
+                break;
+            }
+            case 2: {
+                cout << "1. Filter by genre" << endl;
                 cout << "2. Filter by rating" << endl;
                 cout << "Option: ";
                 int subOption;
                 cin >> subOption;
-
                 if (subOption == 1) {
                     string genre;
                     cout << "Enter genre: ";
@@ -116,7 +119,8 @@ int main() {
                         }
                     }
                 }
-                break;}
+                break;
+            }
             case 3: {
                 string seriesName;
                 float rating;
@@ -164,7 +168,6 @@ int main() {
                     }
                 }
                 break;
-
             }
             case 6: {
                 cout << "Goodbye!" << endl;

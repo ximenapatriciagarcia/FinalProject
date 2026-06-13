@@ -1,21 +1,17 @@
 MOVIE,M001,Inception,148,Sci-Fi
 MOVIE,M002,The Dark Knight,152,Action
-SERIES,S001,Breaking Bad,60,Drama
-EPISODE,Pilot,1
-EPISODE,Cat's in the Bag,1
-SERIES,S002,Stranger Things,50,Sci-Fi
-EPISODE,Chapter One,1
-EPISODE,Chapter Two,1
-MOVIE,M001,Inception,148,Sci-Fi
-MOVIE,M002,The Dark Knight,152,Action
 MOVIE,M003,Interstellar,169,Sci-Fi
 SERIES,S001,Breaking Bad,60,Drama
-EPISODE,Pilot,1
-EPISODE,Cat's in the Bag,1
-EPISODE,Seven Thirty-Seven,2
+SEASON,1
+EPISODE,E001,Pilot,45,Drama
+EPISODE,E002,Cat's in the Bag,45,Drama
+SEASON,2
+EPISODE,E003,Seven Thirty-Seven,45,Drama
 SERIES,S002,Stranger Things,50,Sci-Fi
-EPISODE,Chapter One,1
-EPISODE,Chapter Two,1
+SEASON,1
+EPISODE,E004,Chapter One,50,Sci-Fi
+EPISODE,E005,Chapter Two,50,Sci-Fi
 SERIES,S003,Dark,60,Sci-Fi
-EPISODE,Secrets,1
-EPISODE,Lies,1
+SEASON,1
+EPISODE,E006,Secrets,60,Sci-Fi
+EPISODE,E007,Lies,60,Sci-Fi
