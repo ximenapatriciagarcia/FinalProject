@@ -3,21 +3,47 @@
 #include <iostream>
 using namespace std;
 
-Series::Series(const string &id, const string &name, int length, const string &genre) : Video(id, name, length, genre) {}
+Series::Series(const string& id, const string& name, int length, const string& genre)
+    : Video(id, name, length, genre) {}
 
-Series::~Series() {};
+Series::~Series() {}
 
-vector<Episode> Series::getEpisodes() const {
-    return this->episodes;
+void Series::addSeason(const Season& season) {
+    seasons.push_back(season);
 }
 
-void Series::addEpisode(const Episode &episode) {
-    this->episodes.push_back(episode);
+void Series::addEpisodeToLastSeason(const Episode& episode) {
+    if (!seasons.empty()) {
+        seasons.back().addEpisode(episode);
+    }
+}
+
+const vector<Season>& Series::getSeasons() const {
+    return seasons;
+}
+
+float Series::getAverageRating() const {
+    int count = 0;
+    float total = 0.0;
+    for (const Season& s : seasons) {
+        for (const Episode& e : s.getEpisodes()) {
+            try {
+                total += e.getAverageRating();
+                count++;
+            } catch (DivideByZeroException& ex) {
+                // An episode with no ratings is not counted in the average.
+            }
+        }
+    }
+    if (count == 0) {
+        throw DivideByZeroException();
+    }
+    return total / count;
 }
 
 void Series::show() const {
-    cout << "[Series] " << this->name  << " | Genre: " << this->genre
-         << " | Length: " << this->length << " min" << " | Rating: ";
+    cout << "[Series] " << name << " | Genre: " << genre
+         << " | Length: " << length << " min | Rating: ";
     try {
         cout << getAverageRating();
     } catch (DivideByZeroException& e) {
@@ -27,20 +53,24 @@ void Series::show() const {
 }
 
 void Series::showEpisodesByRating(float rating) const {
-    for (const Episode& e : this->episodes) {
-        try {
-            if (e.getAverageRating() >= rating) {
-                e.show();
+    for (const Season& s : seasons) {
+        for (const Episode& e : s.getEpisodes()) {
+            try {
+                if (e.getAverageRating() >= rating) {
+                    e.show();
+                }
+            } catch (DivideByZeroException& ex) {
+                // An episode with no ratings does not meet a rating filter; skip it.
             }
-        } catch (DivideByZeroException& ex) {
-            // An episode with no ratings does not meet a rating filter; skip it.
         }
     }
 }
 
 void Series::validate() const {
     Video::validate();
-    for (const Episode& e : this->episodes) {
-        e.validate();
+    for (const Season& s : seasons) {
+        for (const Episode& e : s.getEpisodes()) {
+            e.validate();
+        }
     }
 }
