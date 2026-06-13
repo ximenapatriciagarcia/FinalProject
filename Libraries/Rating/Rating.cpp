@@ -1,9 +1,10 @@
 #include "rating.hpp"
-using namespace std;
 #include <iostream>
+using namespace std;
 
 Rating::Rating(){
     rates = {};
+    rating = 0;
 }
 
 void Rating::CalculateAverageRating(int r){
@@ -16,11 +17,14 @@ void Rating::CalculateAverageRating(int r){
 }
 
 float Rating::Rate(int r){
-    cout << "Please enter your rating in a scale from 0 - 5 (Just Integers)";
     CalculateAverageRating(r);
-    cout << "The new rating is: " << rating;
-
+    return rating;
 }
+
 float Rating::GetRating(){
     return rating;
+}
+
+void Rating::SetRate(float r){
+    rating = r;
 }
