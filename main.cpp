@@ -1,5 +1,5 @@
-#include "Movie/Movie.hpp"
-#include "Series/Series.hpp"
+#include "Libraries/Movie/Movie.hpp"
+#include "Libraries/Series/Series.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>

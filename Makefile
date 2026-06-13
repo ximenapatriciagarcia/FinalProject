@@ -6,23 +6,23 @@ all: main
 main: main.o Video.o Movie.o Series.o Episode.o InvalidRatingException.o
 	$(CXX) $(CXXFLAGS) -o main main.o Video.o Movie.o Series.o Episode.o InvalidRatingException.o
 
-main.o: main.cpp Movie.hpp Series.hpp InvalidRatingException.hpp
+main.o: main.cpp Libraries/Movie/Movie.hpp Libraries/Series/Series.hpp Exception/InvalidRatingException/InvalidRatingException.hpp
 	$(CXX) $(CXXFLAGS) -c main.cpp
 
-Video.o: Video.cpp Video.hpp
-	$(CXX) $(CXXFLAGS) -c Video.cpp
+Video.o: Libraries/Video/Video.cpp Libraries/Video/Video.hpp
+	$(CXX) $(CXXFLAGS) -c Libraries/Video/Video.cpp
 
-Movie.o: Movie.cpp Movie.hpp Video.hpp
-	$(CXX) $(CXXFLAGS) -c Movie.cpp
+Movie.o: Libraries/Movie/Movie.cpp Libraries/Movie/Movie.hpp Libraries/Video/Video.hpp
+	$(CXX) $(CXXFLAGS) -c Libraries/Movie/Movie.cpp
 
-Series.o: Series.cpp Series.hpp Video.hpp Episode.hpp
-	$(CXX) $(CXXFLAGS) -c Series.cpp
+Series.o: Libraries/Series/Series.cpp Libraries/Series/Series.hpp Libraries/Video/Video.hpp Libraries/Episode/Episode.hpp
+	$(CXX) $(CXXFLAGS) -c Libraries/Series/Series.cpp
 
-Episode.o: Episode.cpp Episode.hpp InvalidRatingException.hpp
-	$(CXX) $(CXXFLAGS) -c Episode.cpp
+Episode.o: Libraries/Episode/Episode.cpp Libraries/Episode/Episode.hpp Exception/InvalidRatingException/InvalidRatingException.hpp
+	$(CXX) $(CXXFLAGS) -c Libraries/Episode/Episode.cpp
 
-InvalidRatingException.o: InvalidRatingException.cpp InvalidRatingException.hpp
-	$(CXX) $(CXXFLAGS) -c InvalidRatingException.cpp
+InvalidRatingException.o: Exception/InvalidRatingException/InvalidRatingException.cpp Exception/InvalidRatingException/InvalidRatingException.hpp
+	$(CXX) $(CXXFLAGS) -c Exception/InvalidRatingException/InvalidRatingException.cpp
 
 clean:
 	rm -f *.o main
