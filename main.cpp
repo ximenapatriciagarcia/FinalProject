@@ -1,10 +1,10 @@
-#include "Movie.hpp"
-#include "Series.hpp"
+#include "Movie/Movie.hpp"
+#include "Series/Series.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include "InvalidRatingException.hpp"
+#include "Exception/InvalidRatingException/InvalidRatingException.hpp"
 
 using namespace std;
 
