@@ -3,7 +3,8 @@
 
 #include <vector>
 #include <string>
-#include "InvalidRatingException/InvalidRatingException.hpp"
+#include "../../Exception/InvalidRatingException/InvalidRatingException.hpp"
+
 using namespace std;
 
 class Video {

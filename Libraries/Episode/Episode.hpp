@@ -3,7 +3,8 @@
 
 #include <string>
 #include <vector>
-#include "Exception/InvalidRatingException/InvalidRatingException.hpp"
+#include "../../Exception/InvalidRatingException/InvalidRatingException.hpp"
+
 using namespace std;
 
 class Episode {

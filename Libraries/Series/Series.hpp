@@ -1,8 +1,10 @@
 #ifndef SITUATEDPROBLEM_SERIES_HPP
 #define SITUATEDPROBLEM_SERIES_HPP
 
-#include "Libraries/Video/Video.hpp"
-#include "Libraries/Episode/Episode.hpp"
+#include "../Video/Video.hpp"
+#include "../Episode/Episode.hpp"
+
+using namespace std;
 
 class Series : public Video {
 private:
@@ -15,4 +17,5 @@ public:
     void showEpisodesByRating(float rating) const;
     void show() const override;
 };
+
 #endif //SITUATEDPROBLEM_SERIES_HPP

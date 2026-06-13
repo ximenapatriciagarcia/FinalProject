@@ -1,8 +1,7 @@
 #ifndef SITUATEDPROBLEM_MOVIE_HPP
 #define SITUATEDPROBLEM_MOVIE_HPP
 
-#include "Libraries/Video/Video.hpp"
-#include "Movie.hpp"
+#include "../Video/Video.hpp"
 
 using namespace std;
 
