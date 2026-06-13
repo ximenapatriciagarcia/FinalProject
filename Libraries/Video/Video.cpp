@@ -1,5 +1,8 @@
 #include "Video.hpp"
 #include "../../Exception/InvalidRatingException/InvalidRatingException.hpp"
+#include "../../Exception/EmptyFieldException/EmptyFieldException.hpp"
+#include "../../Exception/InvalidNumberException/InvalidNumberException.hpp"
+#include "../../Exception/DivideByZeroException/DivideByZeroException.hpp"
 #include <iostream>
 
 using namespace std;
@@ -27,7 +30,7 @@ string Video::getGenre() const {
 
 float Video::getAverageRating() const {
     if (this->ratings.empty()) {
-        return 0.0;
+        throw DivideByZeroException();
     }
 
     float sum = 0.0;
@@ -44,4 +47,19 @@ Video& Video::operator+=(float rating) {
     }
     this->ratings.push_back(rating);
     return *this;
+}
+
+void Video::validate() const {
+    if (this->id.empty()) {
+        throw EmptyFieldException("id");
+    }
+    if (this->name.empty()) {
+        throw EmptyFieldException("name");
+    }
+    if (this->genre.empty()) {
+        throw EmptyFieldException("genre");
+    }
+    if (this->length <= 0) {
+        throw InvalidNumberException("length", this->length);
+    }
 }

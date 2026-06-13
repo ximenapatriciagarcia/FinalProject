@@ -1,4 +1,7 @@
 #include "Episode.hpp"
+#include "../../Exception/EmptyFieldException/EmptyFieldException.hpp"
+#include "../../Exception/InvalidNumberException/InvalidNumberException.hpp"
+#include "../../Exception/DivideByZeroException/DivideByZeroException.hpp"
 #include <iostream>
 
 using namespace std;
@@ -17,7 +20,7 @@ int Episode::getSeason() const {
 
 float Episode::getAverageRating() const {
     if (this->ratings.empty()) {
-        return 0.0;
+        throw DivideByZeroException();
     }
 
     float sum = 0.0;
@@ -39,5 +42,20 @@ Episode& Episode::operator+=(float rating) {
 void Episode::show() const {
     cout << "Episode: " << this->title
     << " | Season: " << this->season
-    << " | Rating: " << getAverageRating() << endl;
+    << " | Rating: ";
+    try {
+        cout << getAverageRating();
+    } catch (DivideByZeroException& e) {
+        cout << "Not rated";
+    }
+    cout << endl;
+}
+
+void Episode::validate() const {
+    if (this->title.empty()) {
+        throw EmptyFieldException("title");
+    }
+    if (this->season <= 0) {
+        throw InvalidNumberException("season", this->season);
+    }
 }

@@ -20,6 +20,7 @@ public:
     float getAverageRating() const;
     Episode& operator+=(float rating);
     void show() const;
+    void validate() const;
 };
 
 #endif //SITUATEDPROBLEM_EPISODE_HPP

@@ -1,4 +1,5 @@
 #include "Series.hpp"
+#include "../../Exception/DivideByZeroException/DivideByZeroException.hpp"
 #include <iostream>
 using namespace std;
 
@@ -16,13 +17,30 @@ void Series::addEpisode(const Episode &episode) {
 
 void Series::show() const {
     cout << "[Series] " << this->name  << " | Genre: " << this->genre
-         << " | Length: " << this->length << " min" << " | Rating: " << getAverageRating() << endl;
+         << " | Length: " << this->length << " min" << " | Rating: ";
+    try {
+        cout << getAverageRating();
+    } catch (DivideByZeroException& e) {
+        cout << "Not rated";
+    }
+    cout << endl;
 }
 
 void Series::showEpisodesByRating(float rating) const {
     for (const Episode& e : this->episodes) {
-        if (e.getAverageRating() >= rating) {
-            e.show();
+        try {
+            if (e.getAverageRating() >= rating) {
+                e.show();
+            }
+        } catch (DivideByZeroException& ex) {
+            // An episode with no ratings does not meet a rating filter; skip it.
         }
+    }
+}
+
+void Series::validate() const {
+    Video::validate();
+    for (const Episode& e : this->episodes) {
+        e.validate();
     }
 }

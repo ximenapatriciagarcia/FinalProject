@@ -5,6 +5,9 @@
 #include <sstream>
 #include <vector>
 #include "Exception/InvalidRatingException/InvalidRatingException.hpp"
+#include "Exception/EmptyFieldException/EmptyFieldException.hpp"
+#include "Exception/InvalidNumberException/InvalidNumberException.hpp"
+#include "Exception/DivideByZeroException/DivideByZeroException.hpp"
 
 using namespace std;
 
@@ -21,45 +24,54 @@ void loadFromFile(vector<Video*>& catalog, const string& filename) {
         string type;
         getline(ss, type, ',');
 
-        if (type == "MOVIE") {
-            string id, name, genre;
-            int length;
-            string lengthStr;
+        // Each record is validated separately, so one bad line does not abort
+        // the whole load. The base class "exception" catches every kind of
+        // exception (our own classes and the ones thrown by stoi).
+        try {
+            if (type == "MOVIE") {
+                string id, name, genre, lengthStr;
 
-            getline(ss,id, ',');
-            getline(ss,name, ',');
-            getline(ss,lengthStr, ',');
-            getline(ss,genre, ',');
+                getline(ss,id, ',');
+                getline(ss,name, ',');
+                getline(ss,lengthStr, ',');
+                getline(ss,genre, ',');
 
-            length = stoi(lengthStr);
+                int length = stoi(lengthStr);
 
-            catalog.push_back(new Movie(id, name, length, genre));
-            currentSeries = nullptr;
-        } else if (type == "SERIES") {
-            string id, name, genre, lengthStr;
-            int length;
+                Movie movie(id, name, length, genre);
+                movie.validate();
+                catalog.push_back(new Movie(movie));
+                currentSeries = nullptr;
+            } else if (type == "SERIES") {
+                string id, name, genre, lengthStr;
 
-            getline(ss, id, ',');
-            getline(ss, name, ',');
-            getline(ss, lengthStr, ',');
-            getline(ss, genre, ',');
+                getline(ss, id, ',');
+                getline(ss, name, ',');
+                getline(ss, lengthStr, ',');
+                getline(ss, genre, ',');
 
-            length = stoi(lengthStr);
+                int length = stoi(lengthStr);
 
-            Series* s = new Series(id, name, length, genre);
-            catalog.push_back(s);
-            currentSeries = s;
-        } else if (type == "EPISODE") {
-            string title, seasonStr;
-            int season;
+                Series series(id, name, length, genre);
+                series.validate();
+                Series* s = new Series(series);
+                catalog.push_back(s);
+                currentSeries = s;
+            } else if (type == "EPISODE") {
+                string title, seasonStr;
 
-            getline(ss, title, ',');
-            getline(ss, seasonStr, ',');
-            season = stoi(seasonStr);
+                getline(ss, title, ',');
+                getline(ss, seasonStr, ',');
+                int season = stoi(seasonStr);
 
-            if (currentSeries != nullptr) {
-                currentSeries->addEpisode(Episode(title, season));
+                Episode episode(title, season);
+                episode.validate();
+                if (currentSeries != nullptr) {
+                    currentSeries->addEpisode(episode);
+                }
             }
+        } catch (exception& e) {
+            cout << "Skipping invalid record: " << e.what() << endl;
         }
     }
 }
@@ -111,8 +123,12 @@ int main() {
                     cout << "Enter minimum rating: ";
                     cin >> rating;
                     for (Video* v : catalog) {
-                        if (v->getAverageRating() >= rating) {
-                            v->show();
+                        try {
+                            if (v->getAverageRating() >= rating) {
+                                v->show();
+                            }
+                        } catch (DivideByZeroException& e) {
+                            // Unrated video does not meet a rating filter; skip it.
                         }
                     }
                 }
@@ -139,8 +155,14 @@ int main() {
                 cin >> rating;
                 for (Video* v : catalog) {
                     Movie* m = dynamic_cast<Movie*>(v);
-                    if (m != nullptr && m->getAverageRating() >= rating) {
-                        m->show();
+                    if (m != nullptr) {
+                        try {
+                            if (m->getAverageRating() >= rating) {
+                                m->show();
+                            }
+                        } catch (DivideByZeroException& e) {
+                            // Unrated movie does not meet a rating filter; skip it.
+                        }
                     }
                 }
                 break;

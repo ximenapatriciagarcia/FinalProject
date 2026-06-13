@@ -3,26 +3,35 @@ CXXFLAGS = -std=c++11 -Wall
 
 all: main
 
-main: main.o Video.o Movie.o Series.o Episode.o InvalidRatingException.o
-	$(CXX) $(CXXFLAGS) -o main main.o Video.o Movie.o Series.o Episode.o InvalidRatingException.o
+main: main.o Video.o Movie.o Series.o Episode.o InvalidRatingException.o EmptyFieldException.o InvalidNumberException.o DivideByZeroException.o
+	$(CXX) $(CXXFLAGS) -o main main.o Video.o Movie.o Series.o Episode.o InvalidRatingException.o EmptyFieldException.o InvalidNumberException.o DivideByZeroException.o
 
-main.o: main.cpp Libraries/Movie/Movie.hpp Libraries/Series/Series.hpp Exception/InvalidRatingException/InvalidRatingException.hpp
+main.o: main.cpp Libraries/Movie/Movie.hpp Libraries/Series/Series.hpp Exception/InvalidRatingException/InvalidRatingException.hpp Exception/EmptyFieldException/EmptyFieldException.hpp Exception/InvalidNumberException/InvalidNumberException.hpp Exception/DivideByZeroException/DivideByZeroException.hpp
 	$(CXX) $(CXXFLAGS) -c main.cpp
 
-Video.o: Libraries/Video/Video.cpp Libraries/Video/Video.hpp
+Video.o: Libraries/Video/Video.cpp Libraries/Video/Video.hpp Exception/EmptyFieldException/EmptyFieldException.hpp Exception/InvalidNumberException/InvalidNumberException.hpp Exception/DivideByZeroException/DivideByZeroException.hpp
 	$(CXX) $(CXXFLAGS) -c Libraries/Video/Video.cpp
 
-Movie.o: Libraries/Movie/Movie.cpp Libraries/Movie/Movie.hpp Libraries/Video/Video.hpp
+Movie.o: Libraries/Movie/Movie.cpp Libraries/Movie/Movie.hpp Libraries/Video/Video.hpp Exception/DivideByZeroException/DivideByZeroException.hpp
 	$(CXX) $(CXXFLAGS) -c Libraries/Movie/Movie.cpp
 
-Series.o: Libraries/Series/Series.cpp Libraries/Series/Series.hpp Libraries/Video/Video.hpp Libraries/Episode/Episode.hpp
+Series.o: Libraries/Series/Series.cpp Libraries/Series/Series.hpp Libraries/Video/Video.hpp Libraries/Episode/Episode.hpp Exception/DivideByZeroException/DivideByZeroException.hpp
 	$(CXX) $(CXXFLAGS) -c Libraries/Series/Series.cpp
 
-Episode.o: Libraries/Episode/Episode.cpp Libraries/Episode/Episode.hpp Exception/InvalidRatingException/InvalidRatingException.hpp
+Episode.o: Libraries/Episode/Episode.cpp Libraries/Episode/Episode.hpp Exception/InvalidRatingException/InvalidRatingException.hpp Exception/EmptyFieldException/EmptyFieldException.hpp Exception/InvalidNumberException/InvalidNumberException.hpp Exception/DivideByZeroException/DivideByZeroException.hpp
 	$(CXX) $(CXXFLAGS) -c Libraries/Episode/Episode.cpp
 
 InvalidRatingException.o: Exception/InvalidRatingException/InvalidRatingException.cpp Exception/InvalidRatingException/InvalidRatingException.hpp
 	$(CXX) $(CXXFLAGS) -c Exception/InvalidRatingException/InvalidRatingException.cpp
+
+EmptyFieldException.o: Exception/EmptyFieldException/EmptyFieldException.cpp Exception/EmptyFieldException/EmptyFieldException.hpp
+	$(CXX) $(CXXFLAGS) -c Exception/EmptyFieldException/EmptyFieldException.cpp
+
+InvalidNumberException.o: Exception/InvalidNumberException/InvalidNumberException.cpp Exception/InvalidNumberException/InvalidNumberException.hpp
+	$(CXX) $(CXXFLAGS) -c Exception/InvalidNumberException/InvalidNumberException.cpp
+
+DivideByZeroException.o: Exception/DivideByZeroException/DivideByZeroException.cpp Exception/DivideByZeroException/DivideByZeroException.hpp
+	$(CXX) $(CXXFLAGS) -c Exception/DivideByZeroException/DivideByZeroException.cpp
 
 clean:
 	rm -f *.o main

@@ -16,6 +16,7 @@ public:
     vector<Episode> getEpisodes() const;
     void showEpisodesByRating(float rating) const;
     void show() const override;
+    void validate() const override;
 };
 
 #endif //SITUATEDPROBLEM_SERIES_HPP

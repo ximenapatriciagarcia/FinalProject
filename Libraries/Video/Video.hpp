@@ -24,6 +24,7 @@ public:
     string getGenre() const;
     float getAverageRating() const;
     Video& operator+=(float rating);
+    virtual void validate() const;
 };
 
 #endif //SITUATEDPROBLEM_VIDEO_HPP
